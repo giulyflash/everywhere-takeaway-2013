@@ -50,7 +50,7 @@ public class EverywhereTakeawayException extends RuntimeException {
 
 	public String getMessage() {
 
-		String msg = "Eccezione in JakiWiki: "+messages[type];
+		String msg = "Eccezione in EverywhereTakeaway: "+messages[type];
 
 		if (extraMessage != null)
 			msg += " - "+extraMessage;
