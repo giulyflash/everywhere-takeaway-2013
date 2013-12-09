@@ -30,4 +30,31 @@ public class UserManagerImplementation implements UserManager {
         dao.add(u);
     
     }
+    
+    public void update(User u) {
+    
+        //Logger.getLogger(UserManager.class.getName()).log(Level.SEVERE, "Utente inserito da UserManager");
+        System.out.println("Utente modificato da UserManager");
+    
+        dao.update(u);
+    
+    }
+    
+    public User find(String email, String password) {
+    
+        return dao.find(email, password);
+    
+    }
+    
+    public User find(String email) {
+    
+        return dao.find(email);
+    
+    }
+    
+    public User find(Long id) {
+    
+        return dao.find(id);
+    
+    }
 }

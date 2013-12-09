@@ -8,31 +8,33 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Registrazione</title>
     </head>
+    
     <body>
+        <h2>Registrati!</h2>
+        <div id="bolla">
         <form action="send_registration.action" method="post">
-            
-            <table>
-                <tr></tr>
-                <tr><td>Tipologia:</td><td><input type="radio" name="type" value="customer"/>Cliente <input type="radio" name="tipo" value="seller"/>Fornitore</td></tr>
-                <tr></tr>
-                <tr><td>Nome:</td><td><input type="text" name="name"/></td></tr>
-                <tr><td>Cognome:</td><td><input type="text" name="surname"/></td></tr>
-                <tr><td>Indirizzo:</td><td><input type="text" name="address"/></td></tr>
-                <tr><td>Numero di telefono:</td><td><input type="text" name="phone"/></td></tr>
-                <tr><td>Indirizzo email:</td><td><input type="text" name="email"/></td></tr>    
-                <tr><td>Codice Fiscale:</td><td><input type="text" name="cf"/></td></tr>    
-                <tr><td>Data di nascita:</td><td><input type="text" name="birthday"/></td></tr>    
-                <tr><td>Immagine:</td><td>TODO</td></tr>    
+                        
+            <table align="center">
+                <tr><td style="text-align: left;">Tipologia:</td><td><input type="radio" name="type" value="buyer"/>Cliente <input type="radio" name="type" value="seller"/>Fornitore</td></tr>
+                <tr><td style="text-align: left;">Nome:</td><td><input type="text" name="name"/></td></tr>
+                <tr><td style="text-align: left;">Cognome:</td><td><input type="text" name="surname"/></td></tr>
+                <tr><td style="text-align: left;">Indirizzo:</td><td><input type="text" name="address"/></td></tr>
+                <tr><td style="text-align: left;">Numero di telefono:</td><td><input type="text" name="phone"/></td></tr>
+                <tr><td style="text-align: left;">Indirizzo email:</td><td><input type="text" name="email"/></td></tr>    
+                <tr><td style="text-align: left;">Codice Fiscale:</td><td><input type="text" name="cf"/></td></tr>    
+                <tr><td style="text-align: left;">Data di nascita:</td><td><input type="text" name="birthday"/></td></tr>   
+                <tr><td style="text-align: left;">Password:</td><td><input type="password" name="passwd"/></td></tr>   
+                <tr><td style="text-align: left;">Conferma password:</td><td><input type="password" name="confirm_passwd"/></td></tr>   
             </table>
             
-            <input type="submit" value="Registrati"/>
+            <br/><input type="submit" value="Registrati"/>
             
             
             
             
         </form>
+        </div>
     </body>
 </html>

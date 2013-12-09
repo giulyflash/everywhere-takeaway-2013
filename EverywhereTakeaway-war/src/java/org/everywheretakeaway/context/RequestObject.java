@@ -61,6 +61,18 @@ public class RequestObject {
 
         return value;
     }
+    
+    /**
+     * Ritorna il valore associato ad una chiave, cercandolo nella
+     * sessione
+     * @param key
+     * @return
+     */
+    public Object getSessionValue(String key) {
+        
+        return session.get(key);
+
+    }
 
 
     /**

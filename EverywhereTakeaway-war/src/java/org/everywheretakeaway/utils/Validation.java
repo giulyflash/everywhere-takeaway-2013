@@ -42,6 +42,12 @@ public class Validation {
     
     }
     
+    public static boolean checkPassword(String s) {
+    
+        return s.matches("[a-zA-Z0-9!?()£$]{8,16}");
+    
+    }
+    
     
     
     
@@ -87,4 +93,24 @@ public class Validation {
         return checkDate(birthday);
         
     }
+    
+    public static boolean validateType(String type) {
+    
+        if(type.equals("buyer") || type.equals("seller"))
+            return true;
+        else
+            return false;
+        
+    
+    }
+    
+    public static boolean validatePassword(String passwd, String confirmPasswd) {
+    
+        if(checkPassword(passwd) && passwd.equals(confirmPasswd))
+            return true;
+        else
+            return false;
+    
+    }
 }
+

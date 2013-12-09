@@ -17,5 +17,9 @@ import org.everywheretakeaway.model.User;
 public interface UserManager {
     
     public void add(User u);
+    public void update(User u);
+    public User find(String email, String password);
+    public User find(String email);
+    public User find(Long id);
     
 }

@@ -26,6 +26,30 @@ public class UserManagerDelegate extends AbstractDelegate {
     
     }
     
+    public User find(String email, String password) {
+    
+        return ((UserManager)getService()).find(email,password);
+    
+    }
+    
+    public User find(String email) {
+    
+        return ((UserManager)getService()).find(email);
+    
+    }
+    
+    public User find(Long id) {
+    
+        return ((UserManager)getService()).find(id);
+    
+    }
+    
+    public void update(User u) {
+    
+        ((UserManager)getService()).update(u);
+    
+    }
+    
     public void add(User u) {
                 
         // Un bug di Java non mi permette di fare il cast. 

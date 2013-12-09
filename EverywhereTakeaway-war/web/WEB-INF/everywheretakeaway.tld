@@ -16,4 +16,47 @@
         </attribute>
 
     </tag>
+    
+    <tag>
+
+        <name>print_login_info</name>
+        <tag-class>org.everywheretakeaway.tag.PrintLoginInfo</tag-class>
+        <bodycontent>empty</bodycontent>
+
+        <attribute>
+            <name>sessionName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>
+    
+    <tag>
+
+        <name>print_user_profile</name>
+        <tag-class>org.everywheretakeaway.tag.PrintUserProfile</tag-class>
+        <bodycontent>empty</bodycontent>
+
+        <attribute>
+            <name>user</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>
+    
+    <tag>
+
+        <name>format_date</name>
+        <tag-class>org.everywheretakeaway.tag.FormatDate</tag-class>
+        <bodycontent>empty</bodycontent>
+
+        <attribute>
+            <name>date</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>    
+    
 </taglib>

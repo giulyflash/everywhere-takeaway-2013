@@ -35,6 +35,7 @@ public class User implements Serializable {
     private String phone;
     private String emailAddress;
     private String cf;
+    private String type;
     
     // Is a md5 hash of the password
     private String password;
@@ -124,9 +125,17 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+    
     public User() {}
     
-    public User(String name,String surname, String address, String phone, String emailAddress, String cf, String birthday) {
+    public User(String name,String surname, String address, String phone, String emailAddress, String cf, String birthday, String type, String password) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -138,8 +147,9 @@ public class User implements Serializable {
         } catch (ParseException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.pictureUrl = null;
-        this.password = null;
+        this.type = type;
+        this.pictureUrl = "img/default_profile.jpg";
+        this.password = password;
     }
     
     
