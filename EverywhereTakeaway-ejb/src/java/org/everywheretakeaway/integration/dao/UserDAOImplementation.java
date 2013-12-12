@@ -25,7 +25,8 @@ public class UserDAOImplementation implements UserDAO {
     
     public void add(User u) {
     
-        entityManager.merge(u);
+        //entityManager.merge(u);
+        entityManager.persist(u);
     
     }
     

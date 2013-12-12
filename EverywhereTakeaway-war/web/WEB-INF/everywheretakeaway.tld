@@ -57,6 +57,48 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
 
-    </tag>    
+    </tag>   
+    
+    <tag>
+
+        <name>print_menu</name>
+        <tag-class>org.everywheretakeaway.tag.PrintMenu</tag-class>
+        <bodycontent>empty</bodycontent>
+
+        <attribute>
+            <name>type</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>      
+    
+    <tag>
+
+        <name>print_user_restaurants</name>
+        <tag-class>org.everywheretakeaway.tag.PrintUserRestaurants</tag-class>
+        <bodycontent>empty</bodycontent>
+
+        <attribute>
+            <name>list</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>      
+    
+    <tag>
+
+        <name>print_categories</name>
+        <tag-class>org.everywheretakeaway.tag.PrintCategories</tag-class>
+        <bodycontent>empty</bodycontent>
+
+        <attribute>
+            <name>categories</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>     
     
 </taglib>

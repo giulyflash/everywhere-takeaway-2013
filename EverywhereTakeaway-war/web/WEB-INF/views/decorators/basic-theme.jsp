@@ -13,8 +13,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <link href="style.css" rel="stylesheet" type="text/css">
         <title><decorator:title/></title>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAjGEQ6BF00o39sTHlrzI6ZJffi_KtSwtc&sensor=false"></script>
+        <script>
+            var geocoder;
+            
+            function initialize() {
+                geocoder = new google.maps.Geocoder();
+            }
+        </script>
+        <decorator:head />
     </head>
-    <body>
+    <body onload="initialize()">
         <div id="login_info">
             <everywheretakeaway:print_login_info sessionName="${name}"/>
         </div>
@@ -24,14 +33,7 @@
             <img src="img/logo_03.png" alt="logo">
         </div>
         <!--inizio menu-->
-        <div class="wrapper">
-            <ul>
-                <li><a href="main.action">index</a></li>
-                <li><a href="#">ordine</a></li>
-                <li><a href="#">bolla</a></li>
-                <li><a href="#">gestione</a></li>
-            </ul>
-        </div>
+        <everywheretakeaway:print_menu type="${type}"/>
         <!-- FINE MENU -->
         <div id="content">
             <div id="bottom"><div id="top">
@@ -42,7 +44,6 @@
         </div>
         <div class="clearCol"></div>
         <div id="footer">
-                <p>Powered by FLYHIGHWebSolutions</p>
         </div>
         </div>
     </body>

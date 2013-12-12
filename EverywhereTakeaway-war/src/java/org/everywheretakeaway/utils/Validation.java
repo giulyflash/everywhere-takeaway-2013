@@ -18,6 +18,10 @@ public class Validation {
     
     }
     
+    private static boolean checkNumber(String s) {
+        return s.matches("^[0-9]+$");
+    }
+    
     private static boolean checkPhoneNumber(String s) {
     
         return s.matches("^[0-9]+/?[0-9]+$");
@@ -42,13 +46,19 @@ public class Validation {
     
     }
     
-    public static boolean checkPassword(String s) {
+    private static boolean checkPassword(String s) {
     
         return s.matches("[a-zA-Z0-9!?()£$]{8,16}");
     
     }
     
+    private static boolean checkVat(String s) {
+        return s.matches("^[0-9]{11,}$");
+    }
     
+    private static boolean checkTime(String s) {
+        return s.matches("^[0-9]{1,2}(:[0-9]{2})?$");
+    }
     
     
     
@@ -112,5 +122,34 @@ public class Validation {
             return false;
     
     }
+    
+    public static boolean validateVat(String vat) {
+    
+        if(checkVat(vat))
+            return true;
+        else
+            return false;
+    
+    }
+    
+    public static boolean validateMaxKm(String s) {
+    
+        if(checkNumber(s))
+            return true;
+        else
+            return false;
+                    
+    
+    }
+    
+    public static boolean validateOpeningTimes(String morningOpening, String morningClosing, String afternoonOpening, String afternoonClosing) {
+    
+        if(!(checkTime(morningOpening) && checkTime(morningClosing) && checkTime(afternoonOpening) && checkTime(afternoonClosing)))
+            return false;
+        else
+            return true; 
+    
+    }
+    
 }
 

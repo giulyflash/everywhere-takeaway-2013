@@ -33,5 +33,23 @@
         <local>org.everywheretakeaway.business.beans.UserManager</local>        
     </ejb-local-ref>
     
+    <ejb-local-ref>        
+        <ejb-ref-name>ejb/RestaurantManager</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>org.everywheretakeaway.business.beans.RestaurantManager</local>        
+    </ejb-local-ref>    
+    
+    <ejb-local-ref>        
+        <ejb-ref-name>ejb/CategoryManager</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>org.everywheretakeaway.business.beans.CategoryManager</local>        
+    </ejb-local-ref>  
+    
+    <ejb-local-ref>        
+        <ejb-ref-name>ejb/ProductManager</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>org.everywheretakeaway.business.beans.ProductManager</local>        
+    </ejb-local-ref>              
+    
     
 </web-app>

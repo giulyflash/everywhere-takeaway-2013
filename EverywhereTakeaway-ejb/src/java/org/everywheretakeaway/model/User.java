@@ -9,6 +9,7 @@ package org.everywheretakeaway.model;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +17,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
@@ -37,13 +39,15 @@ public class User implements Serializable {
     private String cf;
     private String type;
     
-    // Is a md5 hash of the password
     private String password;
    
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date birthday;
     
     private String pictureUrl;
+    
+    @OneToMany(mappedBy="owner")
+    private Collection<Restaurant> restaurants;
 
     public Long getId() {
         return id;
