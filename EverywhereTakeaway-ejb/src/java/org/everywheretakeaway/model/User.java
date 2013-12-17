@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,10 @@ public class User implements Serializable {
     
     private String name;
     private String surname;
-    private String address;
+    
+    @Embedded
+    private Address address;
+    
     private String phone;
     private String emailAddress;
     private String cf;
@@ -73,11 +77,11 @@ public class User implements Serializable {
         this.surname = surname;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
@@ -139,7 +143,7 @@ public class User implements Serializable {
     
     public User() {}
     
-    public User(String name,String surname, String address, String phone, String emailAddress, String cf, String birthday, String type, String password) {
+    public User(String name,String surname, Address address, String phone, String emailAddress, String cf, String birthday, String type, String pictureUrl, String password) {
         this.name = name;
         this.surname = surname;
         this.address = address;
@@ -152,7 +156,7 @@ public class User implements Serializable {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.type = type;
-        this.pictureUrl = "img/default_profile.jpg";
+        this.pictureUrl = pictureUrl;
         this.password = password;
     }
     

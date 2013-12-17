@@ -25,12 +25,35 @@ import org.xml.sax.InputSource;
  *
  * @author Fede
  */
-public class MapsValidation {
+public class MapsUtils {
     // URL prefix to the geocoder
     private static final String GEOCODER_REQUEST_PREFIX_FOR_XML = "http://maps.google.com/maps/api/geocode/xml";
 
     private static final Logger logger = Logger.getLogger(ActionFactory.class.getName());
-
+    
+    private static double rad(double d) {
+    
+        return d * Math.PI / 180.0;
+    
+    }
+    
+    // formula presa da StackOverflow
+    // usando una formula invece delle api di google sono magari meno preciso ma più veloce
+    public static double distanceBetweenTwoPoints(double latitudeA, double longitudeA, double latitudeB, double longitudeB) {
+    
+        double R = 6371.0;
+        double dLat = rad(latitudeB - latitudeA);
+        double dLong = rad(longitudeB - longitudeA);
+        
+        double a = Math.sin(dLat / 2.0) * Math.sin(dLat / 2.0) + Math.cos(rad(latitudeA)) * Math.cos(rad(latitudeB)) * Math.sin(dLong / 2.0) * Math.sin(dLong / 2.0);
+        double c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));
+        double d = R * c;
+        
+        return d;
+        
+    }
+        
+        
     public static boolean validateAddress(String street, String postalCode, String city, double latitude, double longitude) {
       
         String address = street + ", " + postalCode + " " + city;

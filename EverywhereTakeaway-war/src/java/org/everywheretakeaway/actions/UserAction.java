@@ -17,7 +17,9 @@ import org.everywheretakeaway.context.ResponseAndView;
 import org.everywheretakeaway.context.ResponseObject;
 import org.everywheretakeaway.controller.Action;
 import org.everywheretakeaway.controller.ActionFactory;
+import org.everywheretakeaway.model.Address;
 import org.everywheretakeaway.model.User;
+import org.everywheretakeaway.utils.MapsUtils;
 import org.everywheretakeaway.utils.Validation;
 
 /**
@@ -59,6 +61,9 @@ public class UserAction implements Action {
         User u;
         
         switch(command) {
+            
+
+                
             
             case "update_password":
                 
@@ -126,7 +131,7 @@ public class UserAction implements Action {
                     
                     if(Validation.validateName((String)requestObject.getValue("name")) &&
                         Validation.validateSurname((String)requestObject.getValue("surname")) &&
-                        Validation.validateAddress((String)requestObject.getValue("address")) &&
+                        MapsUtils.validateAddress((String)requestObject.getValue("street"),(String)requestObject.getValue("postalCode"),(String)requestObject.getValue("city"),Double.parseDouble((String)requestObject.getValue("latitude")),Double.parseDouble((String)requestObject.getValue("longitude"))) &&
                         Validation.validatePhone((String)requestObject.getValue("phone")) &&
                         Validation.validateEmail((String)requestObject.getValue("email")) &&
                         Validation.validateCF((String)requestObject.getValue("cf")) && 
@@ -137,7 +142,11 @@ public class UserAction implements Action {
                         
                         u.setName((String)requestObject.getValue("name"));
                         u.setSurname((String)requestObject.getValue("surname"));
-                        u.setAddress((String)requestObject.getValue("address"));
+                        u.getAddress().setStreet((String)requestObject.getValue("street"));
+                        u.getAddress().setPostalCode((String)requestObject.getValue("postalCode"));
+                        u.getAddress().setCity((String)requestObject.getValue("city"));
+                        u.getAddress().setLatitude(Double.parseDouble((String)requestObject.getValue("latitude")));
+                        u.getAddress().setLongitude(Double.parseDouble((String)requestObject.getValue("longitude")));
                         u.setPhone((String)requestObject.getValue("phone"));
                         u.setEmailAddress((String)requestObject.getValue("email"));
                         u.setCf((String)requestObject.getValue("cf"));
@@ -237,7 +246,7 @@ public class UserAction implements Action {
                 
                 if(Validation.validateName((String)requestObject.getValue("name")) &&
                         Validation.validateSurname((String)requestObject.getValue("surname")) &&
-                        Validation.validateAddress((String)requestObject.getValue("address")) &&
+                        MapsUtils.validateAddress((String)requestObject.getValue("street"),(String)requestObject.getValue("postalCode"),(String)requestObject.getValue("city"),Double.parseDouble((String)requestObject.getValue("latitude")),Double.parseDouble((String)requestObject.getValue("longitude"))) &&
                         Validation.validatePhone((String)requestObject.getValue("phone")) &&
                         Validation.validateEmail((String)requestObject.getValue("email")) &&
                         Validation.validateCF((String)requestObject.getValue("cf")) && 
@@ -246,7 +255,8 @@ public class UserAction implements Action {
                         Validation.validatePassword((String)requestObject.getValue("passwd"),(String)requestObject.getValue("confirm_passwd")) 
                         ) {
                     
-                    um.add(new User((String)requestObject.getValue("name"),(String)requestObject.getValue("surname"),(String)requestObject.getValue("address"),(String)requestObject.getValue("phone"),(String)requestObject.getValue("email"),(String)requestObject.getValue("cf"),(String)requestObject.getValue("birthday"),(String)requestObject.getValue("type"),(String)requestObject.getValue("passwd")));
+                    Address address = new Address((String)requestObject.getValue("street"),(String)requestObject.getValue("postalCode"),(String)requestObject.getValue("city"),Double.parseDouble((String)requestObject.getValue("latitude")),Double.parseDouble((String)requestObject.getValue("longitude")));
+                    um.add(new User((String)requestObject.getValue("name"),(String)requestObject.getValue("surname"),address,(String)requestObject.getValue("phone"),(String)requestObject.getValue("email"),(String)requestObject.getValue("cf"),(String)requestObject.getValue("birthday"),(String)requestObject.getValue("type"),"img/default_profile.jpg",(String)requestObject.getValue("passwd")));
 
                     response.setValue("esito", "OK");
                     

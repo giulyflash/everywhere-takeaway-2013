@@ -21,6 +21,7 @@ public interface RestaurantManager {
     public void add(Restaurant r);
     public void update(Restaurant r);
     public List<Restaurant> find(User owner);
+    public List<Restaurant> find();
     public void delete(Restaurant r);
     public Restaurant find(Long id);
     

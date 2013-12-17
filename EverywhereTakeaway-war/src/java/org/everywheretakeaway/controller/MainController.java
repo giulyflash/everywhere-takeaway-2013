@@ -49,10 +49,12 @@ public class MainController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //response.setContentType("text/html;charset=UTF-8");
         
+        //logger.info("Invocato action: "+(String)request.getParameter("upload_type"));
+        
         RequestObject requestObject = ContextObjectFactory.getRequestObject(request);
         
         // File upload exception
-        if(requestObject.getRequestCommmand().equals("upload_photo"))
+        if(requestObject.getRequestCommmand().equals("upload_photo") || requestObject.getRequestCommmand().equals("upload_product_picture"))
             uploadPhoto(request, requestObject);
         
         Action action = ActionFactory.createAction(requestObject);
@@ -91,20 +93,50 @@ public class MainController extends HttpServlet {
     }
     
     public void uploadPhoto(HttpServletRequest request, RequestObject requestObject) {
-    
-        String imagesDirectory = "img";
+        
+        //String uploadType = (String)(request.getParameter("upload_type"));
+        //String uploadName = (String)(request.getParameter("upload_name"));
+        
+        String uploadType = (String)requestObject.getValue("upload_type");
+        String uploadName = (String)requestObject.getValue("upload_name");
+        
+        
+        String imagesDirectory;
+        
+        //logger.log(Level.INFO, "Upload type: " + uploadType);
+        
+        switch(uploadType) {
+        
+            case "user":
+                imagesDirectory = "img";
+                break;
+            case "product":
+                imagesDirectory = "img/products";                
+                break;
+            default:    
+                imagesDirectory = "";
+        
+        }
+        
+        logger.log(Level.INFO, "Images directory: " + imagesDirectory);
+        
         String uploadDirectory = getServletContext().getRealPath(imagesDirectory);
         String fileName = "";
         
         //process only if its multipart content and the user is logged in
-        if(ServletFileUpload.isMultipartContent(request) && (request.getSession().getAttribute("email") != null)){
+        if(!(imagesDirectory.equals("")) && ServletFileUpload.isMultipartContent(request) && (request.getSession().getAttribute("email") != null)){
+            
+            logger.log(Level.INFO, "Enter if");
+            
             try {
                 List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
 
                 for(FileItem item : multiparts){
                     if(!item.isFormField()){
                         //String name = new File(item.getName()).getName();
-                        fileName = String.valueOf((Long)(request.getSession().getAttribute("id"))) + "." + FilenameUtils.getExtension(item.getName());
+                        //fileName = String.valueOf((Long)(request.getSession().getAttribute("id"))) + "." + FilenameUtils.getExtension(item.getName());
+                        
+                        fileName = uploadName + "." + FilenameUtils.getExtension(item.getName());
                         File file = new File(uploadDirectory + File.separator + fileName);
                         
                         // Se esiste già lo cancello
@@ -123,7 +155,7 @@ public class MainController extends HttpServlet {
             }          
 
         }else{
-            request.setAttribute("esito","Fail");
+            requestObject.setValue("esito_upload","Fail");
         }
 
 

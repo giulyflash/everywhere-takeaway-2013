@@ -85,7 +85,7 @@ public class PrintUserRestaurants extends SimpleTagSupport {
             out.println("<div id='user_info'>");
             out.println("<div class=\"center\">");
             out.println("<br/>");
-            out.println("<b>" + current.getName() + "</b><br/><br/>");
+            out.println("<b><a href=\"show_restaurant_products.action?restaurant_id=" + current.getId() + "\">" + current.getName() + "</a></b><br/><br/>");
             out.println("<b>" + current.getOpeningTimes().getMorningOpening() + " - " + current.getOpeningTimes().getMorningClosing() + ", ");
             out.println("" + current.getOpeningTimes().getAfternoonOpening() + " - " + current.getOpeningTimes().getAfternoonClosing() + "</b>");
             out.println("<br/><br/>");

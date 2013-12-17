@@ -51,6 +51,12 @@ public class RestaurantManagerDelegate extends AbstractDelegate {
         
     }
     
+    public List<Restaurant> find() {
+                 
+        return ((RestaurantManager)getService()).find();
+        
+    }
+    
     public Restaurant find(Long id) {
                  
         return ((RestaurantManager)getService()).find(id);

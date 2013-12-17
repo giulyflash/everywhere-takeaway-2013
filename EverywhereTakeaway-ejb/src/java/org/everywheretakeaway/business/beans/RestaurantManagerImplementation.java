@@ -53,7 +53,13 @@ public class RestaurantManagerImplementation implements RestaurantManager {
     
         return dao.find(owner);
     
-    }    
+    }   
+    
+    public List<Restaurant> find() {
+    
+        return dao.find();
+    
+    }  
     
     public Restaurant find(Long id) {
     

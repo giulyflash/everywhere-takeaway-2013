@@ -20,6 +20,7 @@ public interface RestaurantDAO {
     public void update(Restaurant r);
     public void delete(Restaurant r);
     public List<Restaurant> find(User owner);
+    public List<Restaurant> find();
     public Restaurant find(Long id);
     
 }

@@ -6,6 +6,9 @@
 
 package org.everywheretakeaway.actions;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.everywheretakeaway.business.RestaurantManagerDelegate;
@@ -15,12 +18,11 @@ import org.everywheretakeaway.context.RequestObject;
 import org.everywheretakeaway.context.ResponseAndView;
 import org.everywheretakeaway.context.ResponseObject;
 import org.everywheretakeaway.controller.Action;
-import org.everywheretakeaway.controller.ActionFactory;
 import org.everywheretakeaway.model.Address;
 import org.everywheretakeaway.model.OpeningTimes;
 import org.everywheretakeaway.model.Restaurant;
 import org.everywheretakeaway.model.User;
-import org.everywheretakeaway.utils.MapsValidation;
+import org.everywheretakeaway.utils.MapsUtils;
 import org.everywheretakeaway.utils.Validation;
 
 /**
@@ -34,6 +36,7 @@ public class RestaurantAction implements Action {
     public RestaurantManagerDelegate rm = new RestaurantManagerDelegate();
     public UserManagerDelegate um = new UserManagerDelegate();
     
+    
     public ResponseAndView createResponseAndView(RequestObject requestObject) {
     
         ResponseObject response = ContextObjectFactory.getResponseObject();
@@ -41,8 +44,88 @@ public class RestaurantAction implements Action {
         String command = requestObject.getRequestCommmand();    
         
         Restaurant r;
+        User u;
+        
+        double user_latitude;
+        double user_longitude;
+        
+        Iterator<Restaurant> iterator;
+        Restaurant current;
+        double currentDistance;
+        //List<RestaurantDistance> orderedRestaurants;
+        
+        List<Restaurant> orderedRestaurants;
+        List<Double> orderedDistances;
+        
+        
+        int i;
         
         switch(command) {
+            
+            case "enter_address":
+                
+                // Se l'utente non è loggato gli presento una pagina in cui può inserire l'indirizzo
+                if(requestObject.getSessionValue("id") == null) {
+                
+                    return new ResponseAndView(response, "enter_address");
+                
+                // In caso contrario gli setto nella richiesta latitudine e longitudine e vado avanti nello switch
+                } else {
+                
+                    u = um.find((Long)requestObject.getSessionValue("id"));
+                    requestObject.setValue("user_latitude",u.getAddress().getLatitude());
+                    requestObject.setValue("user_longitude",u.getAddress().getLongitude());
+                    
+                    
+                }
+            
+            // NON INSERIRE NULLA QUI
+            
+            case "choose_restaurant":
+                
+                if(requestObject.getValue("user_latitude") != null && requestObject.getValue("user_longitude") != null) {
+                
+                    user_latitude = (Double)requestObject.getValue("user_latitude");
+                    user_longitude = (Double)requestObject.getValue("user_longitude");
+
+                    iterator = rm.find().iterator();
+
+                    orderedRestaurants = new LinkedList<Restaurant>();
+                    orderedDistances = new LinkedList<Double>();
+
+                    // Scorro tutti i ristoranti
+                    while(iterator.hasNext()) {
+
+                        current = iterator.next();
+                        currentDistance = MapsUtils.distanceBetweenTwoPoints(user_latitude, user_longitude, current.getAddress().getLatitude(), current.getAddress().getLongitude());
+                        // Se l'indirizzo dell'utente è nel raggio di consegna del ristorante aggiungo il ristorante in ordine di distanza
+                        if(current.getMaxKm() >= currentDistance) {
+
+                            i=0;
+                            while(i < orderedDistances.size() && (orderedDistances.get(i) < currentDistance )) {
+
+                                i++;
+
+                            }
+
+                            // Aggiungo il ristorante nella posizione corretta
+                            orderedRestaurants.add(i, current);
+                            orderedDistances.add(i, currentDistance);
+
+                        }
+
+                    }
+
+                    response.setValue("orderedRestaurants", orderedRestaurants);
+                    response.setValue("orderedDistances", orderedDistances);
+
+                    return new ResponseAndView(response, "choose_restaurant");
+                    
+                } else {
+                
+                    return new ResponseAndView(response, "enter_address");
+                
+                }
             
             case "show_user_restaurants":
                 
@@ -83,13 +166,13 @@ public class RestaurantAction implements Action {
                 
                 if(requestObject.getSessionValue("id") != null && requestObject.getSessionValue("type").equals("seller")) {
                 
-                    if(MapsValidation.validateAddress((String)requestObject.getValue("street"),(String)requestObject.getValue("postalCode"),(String)requestObject.getValue("city"),Double.parseDouble((String)requestObject.getValue("latitude")),Double.parseDouble((String)requestObject.getValue("longitude"))))
+                    if(MapsUtils.validateAddress((String)requestObject.getValue("street"),(String)requestObject.getValue("postalCode"),(String)requestObject.getValue("city"),Double.parseDouble((String)requestObject.getValue("latitude")),Double.parseDouble((String)requestObject.getValue("longitude"))))
                         logger.log(Level.INFO, "true");
                     else
                         logger.log(Level.INFO, "false");
 
                     if(Validation.validateName((String)requestObject.getValue("name")) &&
-                            MapsValidation.validateAddress((String)requestObject.getValue("street"),(String)requestObject.getValue("postalCode"),(String)requestObject.getValue("city"),Double.parseDouble((String)requestObject.getValue("latitude")),Double.parseDouble((String)requestObject.getValue("longitude"))) &&
+                            MapsUtils.validateAddress((String)requestObject.getValue("street"),(String)requestObject.getValue("postalCode"),(String)requestObject.getValue("city"),Double.parseDouble((String)requestObject.getValue("latitude")),Double.parseDouble((String)requestObject.getValue("longitude"))) &&
                             Validation.validateVat((String)requestObject.getValue("vat")) &&                        
                             Validation.validateOpeningTimes((String)requestObject.getValue("morningOpening"),(String)requestObject.getValue("morningClosing"),(String)requestObject.getValue("afternoonOpening"),(String)requestObject.getValue("afternoonClosing")) &&
                             Validation.validatePhone((String)requestObject.getValue("phone")) &&  
@@ -199,7 +282,7 @@ public class RestaurantAction implements Action {
                     if( (r != null) && (r.getOwner().getId().equals((Long)requestObject.getSessionValue("id"))) ) {
                     
                         if(Validation.validateName((String)requestObject.getValue("name")) &&
-                            MapsValidation.validateAddress((String)requestObject.getValue("street"),(String)requestObject.getValue("postalCode"),(String)requestObject.getValue("city"),Double.parseDouble((String)requestObject.getValue("latitude")),Double.parseDouble((String)requestObject.getValue("longitude"))) &&
+                            MapsUtils.validateAddress((String)requestObject.getValue("street"),(String)requestObject.getValue("postalCode"),(String)requestObject.getValue("city"),Double.parseDouble((String)requestObject.getValue("latitude")),Double.parseDouble((String)requestObject.getValue("longitude"))) &&
                             Validation.validateVat((String)requestObject.getValue("vat")) &&                        
                             Validation.validateOpeningTimes((String)requestObject.getValue("morningOpening"),(String)requestObject.getValue("morningClosing"),(String)requestObject.getValue("afternoonOpening"),(String)requestObject.getValue("afternoonClosing")) &&
                             Validation.validateEmail((String)requestObject.getValue("email")) &&  

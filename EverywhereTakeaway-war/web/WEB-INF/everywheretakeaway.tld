@@ -99,6 +99,60 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
 
+    </tag>   
+    
+    <tag>
+
+        <name>print_restaurant_products</name>
+        <tag-class>org.everywheretakeaway.tag.PrintRestaurantProducts</tag-class>
+        <bodycontent>empty</bodycontent>
+
+        <attribute>
+            <name>list</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>        
+    
+    <tag>
+
+        <name>print_categories_select</name>
+        <tag-class>org.everywheretakeaway.tag.PrintCategoriesSelect</tag-class>
+        <bodycontent>empty</bodycontent>
+
+        <attribute>
+            <name>list</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        
+        <attribute>
+            <name>selected_id</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
     </tag>     
+    
+    <tag>
+
+        <name>print_searched_restaurants</name>
+        <tag-class>org.everywheretakeaway.tag.PrintSearchedRestaurants</tag-class>
+        <bodycontent>empty</bodycontent>
+
+        <attribute>
+            <name>restaurants</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        
+        <attribute>
+            <name>distances</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag> 
     
 </taglib>

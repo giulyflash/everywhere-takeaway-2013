@@ -79,7 +79,7 @@ public class PrintUserProfile extends SimpleTagSupport {
             
             out.println("<div id='bolla_left'>");
             out.println("<b>Modifica immagine personale</b>");
-            out.println("<form action='upload_photo.action' method='post' enctype='multipart/form-data'>");
+            out.println("<form action='upload_photo.action?upload_type=user&upload_name=" + user.getId() + "' method='post' enctype='multipart/form-data'>");
             out.println("<input type='file' name='file' size='50' />");
             out.println("<br/>");
             out.println("<input type='submit' value='Carica' />");

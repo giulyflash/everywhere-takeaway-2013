@@ -60,9 +60,21 @@ public class Validation {
         return s.matches("^[0-9]{1,2}(:[0-9]{2})?$");
     }
     
+    private static boolean checkPrice(String s) {
+    
+        return s.matches("^[0-9]+[.]?[0-9]{0,2}$");
+        
+    }
+    
     
     
     public static boolean validateName(String name) {
+    
+        return checkEmpty(name);
+    
+    }
+    
+    public static boolean validateDescription(String name) {
     
         return checkEmpty(name);
     
@@ -151,5 +163,24 @@ public class Validation {
     
     }
     
+    public static boolean validatePrice(String price) {
+    
+        if(checkPrice(price))
+            return true;
+        else
+            return false;
+    
+    }
+    
+    public static boolean validateId(String id) {
+    
+        if(checkNumber(id))
+            return true;
+        else
+            return false;
+    
+    }
+    
 }
+
 

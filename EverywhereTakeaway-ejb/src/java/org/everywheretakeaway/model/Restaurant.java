@@ -183,5 +183,6 @@ public class Restaurant implements Serializable {
     public String toString() {
         return "org.everywheretakeaway.model.Restaurant[ id=" + id + " ]";
     }
+
     
 }

@@ -52,7 +52,15 @@ public class RestaurantDAOImplementation implements RestaurantDAO {
         List<Restaurant> result = (List<Restaurant>)query.getResultList();
         return result;
     
-    }    
+    }  
+    
+    public List<Restaurant> find() {
+    
+        Query query = entityManager.createQuery("SELECT r FROM Restaurant r");
+        List<Restaurant> result = (List<Restaurant>)query.getResultList();
+        return result;
+    
+    } 
     
     public Restaurant find(Long id) {
     
