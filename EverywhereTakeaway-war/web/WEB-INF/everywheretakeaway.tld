@@ -152,7 +152,53 @@
             <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
+        
+        <attribute>
+            <name>category_id</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
 
     </tag> 
+    
+        <tag>
+
+        <name>print_category_filter</name>
+        <tag-class>org.everywheretakeaway.tag.PrintCategoryFilter</tag-class>
+        <bodycontent>empty</bodycontent>
+
+        <attribute>
+            <name>categories</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        
+        <attribute>
+            <name>action</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+        <attribute>
+            <name>selected_id</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag> 
+    
+    <tag>
+
+        <name>print_searched_products</name>
+        <tag-class>org.everywheretakeaway.tag.PrintSearchedProducts</tag-class>
+        <bodycontent>empty</bodycontent>
+
+        <attribute>
+            <name>list</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+
+    </tag>     
     
 </taglib>

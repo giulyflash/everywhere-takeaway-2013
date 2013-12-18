@@ -51,6 +51,7 @@ public class PrintMenu extends SimpleTagSupport {
             out.println("<li><a href=\"main.action\">index</a></li>");
             out.println("<li><a href=\"login.action\">login</a></li>");
             out.println("<li><a href=\"register.action\">register</a></li>");
+            out.println("<li><a href=\"enter_address.action\">cerca</a></li>");
 
             
         } else if(type.equals("admin")) {            
@@ -61,6 +62,7 @@ public class PrintMenu extends SimpleTagSupport {
         } else if(type.equals("buyer")) {
             
             out.println("<li><a href=\"main.action\">index</a></li>");
+            out.println("<li><a href=\"enter_address.action\">ordina</a></li>");
         
         
         } else if(type.equals("seller")) {

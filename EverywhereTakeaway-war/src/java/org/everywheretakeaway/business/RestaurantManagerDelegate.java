@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import org.everywheretakeaway.actions.RestaurantAction;
 import org.everywheretakeaway.business.beans.RestaurantManager;
+import org.everywheretakeaway.model.Category;
 import org.everywheretakeaway.model.Restaurant;
 import org.everywheretakeaway.model.User;
 
@@ -60,6 +61,12 @@ public class RestaurantManagerDelegate extends AbstractDelegate {
     public Restaurant find(Long id) {
                  
         return ((RestaurantManager)getService()).find(id);
+        
+    }
+    
+    public List<Restaurant> find(Category category) {
+    
+        return ((RestaurantManager)getService()).find(category);
         
     }
     

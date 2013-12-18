@@ -22,6 +22,7 @@ public class PrintSearchedRestaurants extends SimpleTagSupport {
     
     List<Restaurant> restaurants;
     List<Double> distances;
+    Long category_id;
 
     public List<Restaurant> getRestaurants() {
         return restaurants;
@@ -37,6 +38,14 @@ public class PrintSearchedRestaurants extends SimpleTagSupport {
 
     public void setDistances(List<Double> distances) {
         this.distances = distances;
+    }
+
+    public Long getCategory_id() {
+        return category_id;
+    }
+
+    public void setCategory_id(Long category_id) {
+        this.category_id = category_id;
     }
     
     public void doTag() throws JspException,IOException {
@@ -100,7 +109,12 @@ public class PrintSearchedRestaurants extends SimpleTagSupport {
             out.println("<div id='user_info'>");
             out.println("<div class=\"center\">");
             out.println("<br/>");
-            out.println("<b><a href=\"show_restaurant_products.action?restaurant_id=" + currentRestaurant.getId() + "\">" + currentRestaurant.getName() + "</a></b><br/><br/>");
+            
+            if(category_id != null)
+                out.println("<b><a href=\"choose_product.action?restaurant_id=" + currentRestaurant.getId() + "&category_id=" + category_id + "\">" + currentRestaurant.getName() + "</a></b><br/><br/>");
+            else
+                out.println("<b><a href=\"choose_product.action?restaurant_id=" + currentRestaurant.getId() + "\">" + currentRestaurant.getName() + "</a></b><br/><br/>");
+            
             out.println("<b>" + currentRestaurant.getOpeningTimes().getMorningOpening() + " - " + currentRestaurant.getOpeningTimes().getMorningClosing() + ", ");
             out.println("" + currentRestaurant.getOpeningTimes().getAfternoonOpening() + " - " + currentRestaurant.getOpeningTimes().getAfternoonClosing() + "</b>");
             out.println("<br/><br/>");

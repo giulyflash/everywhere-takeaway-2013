@@ -46,6 +46,32 @@ public class ProductAction implements Action {
         
         switch(command) {  
             
+            case "choose_product":
+                
+                if(requestObject.getValue("restaurant_id") != null) {
+                
+                    response.setValue("restaurant_id",(String)requestObject.getValue("restaurant_id"));
+                    
+                    response.setValue("categories",cm.find());
+                    
+                    if(requestObject.getValue("category_id") != null && !((String)requestObject.getValue("category_id")).equals("")) {
+                        response.setValue("list",pm.find(rm.find(Long.parseLong((String)requestObject.getValue("restaurant_id"))),cm.find(Long.parseLong((String)requestObject.getValue("category_id")))));
+                        response.setValue("selected_id",Long.parseLong((String)requestObject.getValue("category_id")));
+                    } else {
+                        response.setValue("list",pm.find(rm.find(Long.parseLong((String)requestObject.getValue("restaurant_id")))));
+                    }                
+                    
+                    return new ResponseAndView(response, "choose_product");
+                                        
+                } else {
+                
+                    response.setValue("esito", "Devi fornire l\'id di un ristorante per utilizzare questa funzione");
+                
+                    return new ResponseAndView(response, "main");
+                }                 
+                
+                
+            
             case "show_restaurant_products":
                 
                 if(requestObject.getSessionValue("id") != null && requestObject.getValue("restaurant_id") != null) {

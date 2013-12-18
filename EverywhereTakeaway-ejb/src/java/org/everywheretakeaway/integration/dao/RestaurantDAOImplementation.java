@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import org.everywheretakeaway.model.Category;
 import org.everywheretakeaway.model.Restaurant;
 import org.everywheretakeaway.model.User;
 
@@ -61,6 +62,17 @@ public class RestaurantDAOImplementation implements RestaurantDAO {
         return result;
     
     } 
+    
+    public List<Restaurant> find(Category category) {
+    
+        // Query che mi restituisce tutti i ristoranti che hanno almeno un prodotto di una determinata categoria
+        //Query query = entityManager.createQuery("SELECT t.restaurant FROM Restaurant r RIGHT JOIN r.products AS t WHERE t.category = :category GROUP BY t.restaurant");
+        Query query = entityManager.createQuery("SELECT r FROM Restaurant r JOIN r.products p WHERE p.category = :category GROUP BY r");
+        query.setParameter("category", category);
+        List<Restaurant> result = (List<Restaurant>)query.getResultList();
+        return result;
+    
+    }
     
     public Restaurant find(Long id) {
     

@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.everywheretakeaway.business.CategoryManagerDelegate;
 import org.everywheretakeaway.business.RestaurantManagerDelegate;
 import org.everywheretakeaway.business.UserManagerDelegate;
 import org.everywheretakeaway.context.ContextObjectFactory;
@@ -35,6 +36,7 @@ public class RestaurantAction implements Action {
     
     public RestaurantManagerDelegate rm = new RestaurantManagerDelegate();
     public UserManagerDelegate um = new UserManagerDelegate();
+    public CategoryManagerDelegate cm = new CategoryManagerDelegate();
     
     
     public ResponseAndView createResponseAndView(RequestObject requestObject) {
@@ -64,17 +66,17 @@ public class RestaurantAction implements Action {
             
             case "enter_address":
                 
-                // Se l'utente non è loggato gli presento una pagina in cui può inserire l'indirizzo
-                if(requestObject.getSessionValue("id") == null) {
+                // Se l'utente non è loggato e non ha ancora inserito il proprio indirizzo gli presento una pagina in cui può inserire l'indirizzo
+                if(requestObject.getSessionValue("id") == null && (requestObject.getValue("user_latitude") == null || requestObject.getValue("user_longitude") == null)) {
                 
                     return new ResponseAndView(response, "enter_address");
-                
-                // In caso contrario gli setto nella richiesta latitudine e longitudine e vado avanti nello switch
-                } else {
+                                    
+                // In caso sia loggato gli setto nella richiesta latitudine e longitudine e vado avanti nello switch al caso choose_restaurant
+                } else if(requestObject.getSessionValue("id") != null) {
                 
                     u = um.find((Long)requestObject.getSessionValue("id"));
-                    requestObject.setValue("user_latitude",u.getAddress().getLatitude());
-                    requestObject.setValue("user_longitude",u.getAddress().getLongitude());
+                    requestObject.setValue("user_latitude",((Double)(u.getAddress().getLatitude())).toString());
+                    requestObject.setValue("user_longitude",((Double)(u.getAddress().getLongitude())).toString());
                     
                     
                 }
@@ -83,13 +85,27 @@ public class RestaurantAction implements Action {
             
             case "choose_restaurant":
                 
+                // TEST                
+                if(requestObject.getSessionValue("id") == null && requestObject.getValue("user_latitude") != null && requestObject.getValue("user_longitude") != null) {
+                    response.setValueInSession("user_latitude",(String)requestObject.getValue("user_latitude"));
+                    response.setValueInSession("user_longitude", (String)requestObject.getValue("user_longitude"));    
+                    logger.log(Level.INFO, "Settati valori in sessione");
+                }         
+                // FINE TEST
+                
+                
                 if(requestObject.getValue("user_latitude") != null && requestObject.getValue("user_longitude") != null) {
                 
-                    user_latitude = (Double)requestObject.getValue("user_latitude");
-                    user_longitude = (Double)requestObject.getValue("user_longitude");
+                    user_latitude = Double.parseDouble((String)requestObject.getValue("user_latitude"));
+                    user_longitude = Double.parseDouble((String)requestObject.getValue("user_longitude"));
 
-                    iterator = rm.find().iterator();
-
+                    if(requestObject.getValue("category_id") != null && !((String)requestObject.getValue("category_id")).equals("")) {
+                        iterator = rm.find(cm.find(Long.parseLong((String)requestObject.getValue("category_id")))).iterator();
+                        response.setValue("selected_id",Long.parseLong((String)requestObject.getValue("category_id")));
+                    } else {
+                        iterator = rm.find().iterator();
+                    }
+                    
                     orderedRestaurants = new LinkedList<Restaurant>();
                     orderedDistances = new LinkedList<Double>();
 
@@ -97,6 +113,7 @@ public class RestaurantAction implements Action {
                     while(iterator.hasNext()) {
 
                         current = iterator.next();
+                        
                         currentDistance = MapsUtils.distanceBetweenTwoPoints(user_latitude, user_longitude, current.getAddress().getLatitude(), current.getAddress().getLongitude());
                         // Se l'indirizzo dell'utente è nel raggio di consegna del ristorante aggiungo il ristorante in ordine di distanza
                         if(current.getMaxKm() >= currentDistance) {
@@ -116,6 +133,7 @@ public class RestaurantAction implements Action {
 
                     }
 
+                    response.setValue("categories",cm.find());
                     response.setValue("orderedRestaurants", orderedRestaurants);
                     response.setValue("orderedDistances", orderedDistances);
 
@@ -297,9 +315,9 @@ public class RestaurantAction implements Action {
                             r.getAddress().setLatitude(Double.parseDouble((String)requestObject.getValue("latitude")));
                             r.getAddress().setLongitude(Double.parseDouble((String)requestObject.getValue("longitude")));
                             r.setVat((String)requestObject.getValue("vat"));
-                            r.getOpeningTimes().setMorningOpening((String)requestObject.getValue("afternoonClosing"));
-                            r.getOpeningTimes().setMorningClosing((String)requestObject.getValue("afternoonClosing"));
-                            r.getOpeningTimes().setAfternoonOpening((String)requestObject.getValue("afternoonClosing"));
+                            r.getOpeningTimes().setMorningOpening((String)requestObject.getValue("morningOpening"));
+                            r.getOpeningTimes().setMorningClosing((String)requestObject.getValue("morningClosing"));
+                            r.getOpeningTimes().setAfternoonOpening((String)requestObject.getValue("afternoonOpening"));
                             r.getOpeningTimes().setAfternoonClosing((String)requestObject.getValue("afternoonClosing"));
                             r.setPhone((String)requestObject.getValue("phone"));
                             r.setMaxKm(Integer.parseInt((String)requestObject.getValue("maxKm")));

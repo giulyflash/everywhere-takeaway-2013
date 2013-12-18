@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import org.everywheretakeaway.integration.dao.RestaurantDAO;
+import org.everywheretakeaway.model.Category;
 import org.everywheretakeaway.model.Restaurant;
 import org.everywheretakeaway.model.User;
 
@@ -66,4 +67,11 @@ public class RestaurantManagerImplementation implements RestaurantManager {
         return dao.find(id);
     
     }    
+    
+    public List<Restaurant> find(Category category) {
+    
+        return dao.find(category);
+    
+    }
+    
 }

@@ -7,6 +7,7 @@
 package org.everywheretakeaway.integration.dao;
 
 import java.util.List;
+import org.everywheretakeaway.model.Category;
 import org.everywheretakeaway.model.Restaurant;
 import org.everywheretakeaway.model.User;
 
@@ -21,6 +22,7 @@ public interface RestaurantDAO {
     public void delete(Restaurant r);
     public List<Restaurant> find(User owner);
     public List<Restaurant> find();
+    public List<Restaurant> find(Category category);
     public Restaurant find(Long id);
     
 }
