@@ -66,32 +66,28 @@ public class RestaurantAction implements Action {
             
             case "enter_address":
                 
-                // Se l'utente non è loggato e non ha ancora inserito il proprio indirizzo gli presento una pagina in cui può inserire l'indirizzo
-                if(requestObject.getSessionValue("id") == null && (requestObject.getValue("user_latitude") == null || requestObject.getValue("user_longitude") == null)) {
-                
+                // Se l'utente non è loggato gli mostro la pagina per inserire l'indirizzo altrimenti vado nel caso successivo
+                // dello switch, ovvero choose_restaurant
+                if(requestObject.getSessionValue("id") == null)
+                    
                     return new ResponseAndView(response, "enter_address");
-                                    
-                // In caso sia loggato gli setto nella richiesta latitudine e longitudine e vado avanti nello switch al caso choose_restaurant
-                } else if(requestObject.getSessionValue("id") != null) {
                 
-                    u = um.find((Long)requestObject.getSessionValue("id"));
-                    requestObject.setValue("user_latitude",((Double)(u.getAddress().getLatitude())).toString());
-                    requestObject.setValue("user_longitude",((Double)(u.getAddress().getLongitude())).toString());
-                    
-                    
-                }
             
             // NON INSERIRE NULLA QUI
             
             case "choose_restaurant":
-                
-                // TEST                
-                if(requestObject.getSessionValue("id") == null && requestObject.getValue("user_latitude") != null && requestObject.getValue("user_longitude") != null) {
+                                
+                // Se l'utente è loggato inserisco latitudine e longitudine in sessione
+                if(requestObject.getSessionValue("id") != null && (requestObject.getValue("user_latitude") == null || requestObject.getValue("user_longitude") == null)) {
+                    u = um.find((Long)requestObject.getSessionValue("id"));
+                    response.setValueInSession("user_latitude",((Double)(u.getAddress().getLatitude())).toString());
+                    response.setValueInSession("user_longitude",((Double)(u.getAddress().getLongitude())).toString());
+                // Se l'utente non è loggato ma ha già inserito latitudine e longitudine, li inserisco in sessione
+                } else if(requestObject.getSessionValue("id") == null && requestObject.getValue("user_latitude") != null && requestObject.getValue("user_longitude") != null) {
                     response.setValueInSession("user_latitude",(String)requestObject.getValue("user_latitude"));
                     response.setValueInSession("user_longitude", (String)requestObject.getValue("user_longitude"));    
-                    logger.log(Level.INFO, "Settati valori in sessione");
-                }         
-                // FINE TEST
+                    //logger.log(Level.INFO, "Settati valori in sessione");
+                } 
                 
                 
                 if(requestObject.getValue("user_latitude") != null && requestObject.getValue("user_longitude") != null) {

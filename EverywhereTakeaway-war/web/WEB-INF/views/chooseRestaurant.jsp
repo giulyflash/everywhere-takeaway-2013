@@ -13,7 +13,7 @@
     </head>
     <body>
         
-        <everywheretakeaway:print_category_filter categories="${categories}" action="enter_address.action" selected_id="${selected_id}"/>
+        <everywheretakeaway:print_category_filter categories="${categories}" action="choose_restaurant.action" selected_id="${selected_id}"/>
         
         <everywheretakeaway:print_searched_restaurants restaurants="${orderedRestaurants}" distances="${orderedDistances}" category_id="${selected_id}"/>
         

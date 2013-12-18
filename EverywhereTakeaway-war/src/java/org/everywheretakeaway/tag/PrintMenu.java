@@ -62,7 +62,7 @@ public class PrintMenu extends SimpleTagSupport {
         } else if(type.equals("buyer")) {
             
             out.println("<li><a href=\"main.action\">index</a></li>");
-            out.println("<li><a href=\"enter_address.action\">ordina</a></li>");
+            out.println("<li><a href=\"choose_restaurant.action\">ordina</a></li>");
         
         
         } else if(type.equals("seller")) {
