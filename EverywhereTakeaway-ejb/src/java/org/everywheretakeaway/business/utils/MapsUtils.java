@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package org.everywheretakeaway.utils;
+package org.everywheretakeaway.business.utils;
 
 import java.net.HttpURLConnection;
 import java.net.URL;

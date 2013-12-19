@@ -27,4 +27,9 @@ public interface RestaurantManager {
     public void delete(Restaurant r);
     public Restaurant find(Long id);
     
+    public List<Restaurant> findAvailable(User user);
+    public List<Restaurant> findAvailable(User user, Category category);
+    public List<Restaurant> findAvailable(Double latitude, Double longitude);
+    public List<Restaurant> findAvailable(Double latitude, Double longitude, Category category);
+    
 }

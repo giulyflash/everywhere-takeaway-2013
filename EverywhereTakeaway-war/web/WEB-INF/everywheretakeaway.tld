@@ -148,12 +148,6 @@
         </attribute>
         
         <attribute>
-            <name>distances</name>
-            <required>true</required>
-            <rtexprvalue>true</rtexprvalue>
-        </attribute>
-        
-        <attribute>
             <name>category_id</name>
             <required>false</required>
             <rtexprvalue>true</rtexprvalue>

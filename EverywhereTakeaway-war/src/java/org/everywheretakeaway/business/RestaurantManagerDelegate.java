@@ -70,4 +70,28 @@ public class RestaurantManagerDelegate extends AbstractDelegate {
         
     }
     
+    public List<Restaurant> findAvailable(User user) {
+    
+        return ((RestaurantManager)getService()).findAvailable(user);
+    
+    }
+    
+    public List<Restaurant> findAvailable(User user, Category category) {
+    
+        return ((RestaurantManager)getService()).findAvailable(user, category);
+    
+    }
+    
+    public List<Restaurant> findAvailable(Double latitude, Double longitude) {
+    
+        return ((RestaurantManager)getService()).findAvailable(latitude, longitude);
+    
+    }
+    
+    public List<Restaurant> findAvailable(Double latitude, Double longitude, Category category) {
+    
+        return ((RestaurantManager)getService()).findAvailable(latitude, longitude, category);
+    
+    }
+    
 }

@@ -21,7 +21,6 @@ import org.everywheretakeaway.model.Restaurant;
 public class PrintSearchedRestaurants extends SimpleTagSupport {
     
     List<Restaurant> restaurants;
-    List<Double> distances;
     Long category_id;
 
     public List<Restaurant> getRestaurants() {
@@ -30,14 +29,6 @@ public class PrintSearchedRestaurants extends SimpleTagSupport {
 
     public void setRestaurants(List<Restaurant> restaurants) {
         this.restaurants = restaurants;
-    }
-
-    public List<Double> getDistances() {
-        return distances;
-    }
-
-    public void setDistances(List<Double> distances) {
-        this.distances = distances;
     }
 
     public Long getCategory_id() {
@@ -53,7 +44,6 @@ public class PrintSearchedRestaurants extends SimpleTagSupport {
         
         
         Iterator<Restaurant> restaurantsIterator = restaurants.iterator();
-        Iterator<Double> distancesIterator = distances.iterator();
         
         Restaurant currentRestaurant;
         double currentDistance;
@@ -66,7 +56,6 @@ public class PrintSearchedRestaurants extends SimpleTagSupport {
         while(restaurantsIterator.hasNext()) {
             
             currentRestaurant = restaurantsIterator.next();
-            currentDistance = distancesIterator.next();
             
             
             out.println("<div id='bolla'>");
@@ -126,7 +115,6 @@ public class PrintSearchedRestaurants extends SimpleTagSupport {
             out.println("<tr><td>Partita IVA:</td><td>" + currentRestaurant.getVat() + "</td></tr>");
             out.println("<tr><td>Numero di telefono:</td><td>" + currentRestaurant.getPhone() + "</td></tr>");
             out.println("<tr><td>Indirizzo email:</td><td>" + currentRestaurant.getEmailAddress() + "</td></tr>");
-            out.println("<tr><td>Distanza:</td><td>" + (Math.floor(currentDistance * 100.0) / 100.0) + " km</td></tr>");
             
             out.println("</table>");
             

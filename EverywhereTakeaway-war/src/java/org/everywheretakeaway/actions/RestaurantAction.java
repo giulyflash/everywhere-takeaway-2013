@@ -51,13 +51,9 @@ public class RestaurantAction implements Action {
         double user_latitude;
         double user_longitude;
         
-        Iterator<Restaurant> iterator;
-        Restaurant current;
-        double currentDistance;
         //List<RestaurantDistance> orderedRestaurants;
         
         List<Restaurant> orderedRestaurants;
-        List<Double> orderedDistances;
         
         
         int i;
@@ -80,8 +76,9 @@ public class RestaurantAction implements Action {
                 // Se l'utente è loggato inserisco latitudine e longitudine in sessione
                 if(requestObject.getSessionValue("id") != null && (requestObject.getValue("user_latitude") == null || requestObject.getValue("user_longitude") == null)) {
                     u = um.find((Long)requestObject.getSessionValue("id"));
-                    response.setValueInSession("user_latitude",((Double)(u.getAddress().getLatitude())).toString());
-                    response.setValueInSession("user_longitude",((Double)(u.getAddress().getLongitude())).toString());
+                    
+                    requestObject.setValueInSession("user_latitude",((Double)(u.getAddress().getLatitude())).toString());
+                    requestObject.setValueInSession("user_longitude",((Double)(u.getAddress().getLongitude())).toString());
                 // Se l'utente non è loggato ma ha già inserito latitudine e longitudine, li inserisco in sessione
                 } else if(requestObject.getSessionValue("id") == null && requestObject.getValue("user_latitude") != null && requestObject.getValue("user_longitude") != null) {
                     response.setValueInSession("user_latitude",(String)requestObject.getValue("user_latitude"));
@@ -96,42 +93,14 @@ public class RestaurantAction implements Action {
                     user_longitude = Double.parseDouble((String)requestObject.getValue("user_longitude"));
 
                     if(requestObject.getValue("category_id") != null && !((String)requestObject.getValue("category_id")).equals("")) {
-                        iterator = rm.find(cm.find(Long.parseLong((String)requestObject.getValue("category_id")))).iterator();
+                        orderedRestaurants = rm.findAvailable(user_latitude, user_longitude, cm.find(Long.parseLong((String)requestObject.getValue("category_id"))));
                         response.setValue("selected_id",Long.parseLong((String)requestObject.getValue("category_id")));
                     } else {
-                        iterator = rm.find().iterator();
+                        orderedRestaurants = rm.findAvailable(user_latitude, user_longitude);
                     }
                     
-                    orderedRestaurants = new LinkedList<Restaurant>();
-                    orderedDistances = new LinkedList<Double>();
-
-                    // Scorro tutti i ristoranti
-                    while(iterator.hasNext()) {
-
-                        current = iterator.next();
-                        
-                        currentDistance = MapsUtils.distanceBetweenTwoPoints(user_latitude, user_longitude, current.getAddress().getLatitude(), current.getAddress().getLongitude());
-                        // Se l'indirizzo dell'utente è nel raggio di consegna del ristorante aggiungo il ristorante in ordine di distanza
-                        if(current.getMaxKm() >= currentDistance) {
-
-                            i=0;
-                            while(i < orderedDistances.size() && (orderedDistances.get(i) < currentDistance )) {
-
-                                i++;
-
-                            }
-
-                            // Aggiungo il ristorante nella posizione corretta
-                            orderedRestaurants.add(i, current);
-                            orderedDistances.add(i, currentDistance);
-
-                        }
-
-                    }
-
                     response.setValue("categories",cm.find());
                     response.setValue("orderedRestaurants", orderedRestaurants);
-                    response.setValue("orderedDistances", orderedDistances);
 
                     return new ResponseAndView(response, "choose_restaurant");
                     
